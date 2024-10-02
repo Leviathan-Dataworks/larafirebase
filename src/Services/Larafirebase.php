@@ -36,9 +36,8 @@ class Larafirebase
 
     public function __construct()
     {
-        $project_name = config('larafirebase.project_name');
         $project_id = config('larafirebase.project_id');
-        $this->api_uri = "https://fcm.googleapis.com/v1/projects/{$project_name}-{$project_id}/messages:send";
+        $this->api_uri = "https://fcm.googleapis.com/v1/projects/{$project_id}/messages:send";
     }
 
     public function withTitle($title)
