@@ -32,7 +32,14 @@ class Larafirebase
 
     private $fromRaw;
 
-    const API_URI = 'https://fcm.googleapis.com/fcm/send';
+    private $api_uri = "";
+
+    public function __construct()
+    {
+        $project_name = config('larafirebase.project_name');
+        $project_id = config('larafirebase.project_id');
+        $this->api_uri = "https://fcm.googleapis.com/v1/projects/{$project_name}-{$project_id}/messages:send";
+    }
 
     public function withTitle($title)
     {
@@ -157,8 +164,8 @@ class Larafirebase
         $authenticationKey = isset($this->authenticationKey) ? $this->authenticationKey:config('larafirebase.authentication_key');
 
         $response = Http::withHeaders([
-            'Authorization' => 'key=' . $authenticationKey
-        ])->post(self::API_URI, $fields);
+            'Authorization' => 'Bearer ' . $authenticationKey
+        ])->post($this->api_uri, $fields);
 
         return $response;
     }
